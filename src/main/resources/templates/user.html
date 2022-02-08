@@ -1,129 +1,129 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Title</title>-->
+<!--</head>-->
+<!--<body>-->
 
-<tr th:each="user: ${users}">
-    <td th:text="${user.getId()}"/>
-    <td th:text="${user.getAge()}"/>
-    <td th:text="${user.getEmail()}"/>
-    <td th:text="${user.getFirstName()}"/>
-    <td th:text="${user.getLastName()}"/>
-    <a th:href="@{'/user?id='+ ${user.getId()}+'&name='+ ${user.getFirstName()}}">info</a>
-    <a th:href="@{'/user/delete/'+ ${user.getId()}}">delete</a>
-    <hr>
-</tr>
+<!--<tr th:each="user: ${users}">-->
+<!--    <td th:text="${user.getId()}"/>-->
+<!--    <td th:text="${user.getAge()}"/>-->
+<!--    <td th:text="${user.getEmail()}"/>-->
+<!--    <td th:text="${user.getFirstName()}"/>-->
+<!--    <td th:text="${user.getLastName()}"/>-->
+<!--    <a th:href="@{'/user?id='+ ${user.getId()}+'&name='+ ${user.getFirstName()}}">info</a>-->
+<!--    <a th:href="@{'/user/delete/'+ ${user.getId()}}">delete</a>-->
+<!--    <hr>-->
+<!--</tr>-->
 
-<label for="firstNameSearch">first name search</label>
-<input id="firstNameSearch" type="text">
+<!--<label for="firstNameSearch">first name search</label>-->
+<!--<input id="firstNameSearch" type="text">-->
 
-<label for="emailSearch">email search</label>
-<input id="emailSearch" type="text">
+<!--<label for="emailSearch">email search</label>-->
+<!--<input id="emailSearch" type="text">-->
 
-<label for="filterSearch">search</label>
-<input id="filterSearch" type="text">
+<!--<label for="filterSearch">search</label>-->
+<!--<input id="filterSearch" type="text">-->
 
-<button onclick="searchUsers()">search</button>
+<!--<button onclick="searchUsers()">search</button>-->
 
-<div id="usersList"></div>
-
-
-<script type="text/javascript"
-        src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script type="text/javascript">
-
-    window.onload = pageLoaded();
-
-    function pageLoaded() {
-        getAllUsers();
-    }
+<!--<div id="usersList"></div>-->
 
 
-    function getAllUsers() {
-        $.ajax({
-            type: "POST",
-            contentType: "application/json",
-            url: "/user/search",
-            dataType: 'json',
-            data: {},
-            cache: false,
-            timeout: 600000,
-            success: function (user) {
-                insertUsers(user);
-            }
-        });
-    }
+<!--<script type="text/javascript"-->
+<!--        src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
+<!--<script type="text/javascript">-->
 
-    function searchUsers() {
-        let usersDiv = document.getElementById('usersList');
-        usersDiv.innerHTML = '';
+<!--    window.onload = pageLoaded();-->
 
-        let firstNameSearch = document.getElementById('firstNameSearch').value;
-        let emailSearch = document.getElementById('emailSearch').value;
-        let filterSearch = document.getElementById('filterSearch').value;
+<!--    function pageLoaded() {-->
+<!--        getAllUsers();-->
+<!--    }-->
 
-        let request = {
-            'firstName': firstNameSearch,
-            'email': emailSearch,
-            'name' : filterSearch
-        }
 
-        $.ajax({
-            type: "GET",
-            contentType: "application/json",
-            url: "/user/search",
-            dataType: 'json',
-            data: JSON.stringify(request),
-            cache: false,
-            timeout: 600000,
-            success: function (user) {
-                insertUsers(user);
-            }
-        });
-    }
+<!--    function getAllUsers() {-->
+<!--        $.ajax({-->
+<!--            type: "POST",-->
+<!--            contentType: "application/json",-->
+<!--            url: "/user/search",-->
+<!--            dataType: 'json',-->
+<!--            data: {},-->
+<!--            cache: false,-->
+<!--            timeout: 600000,-->
+<!--            success: function (user) {-->
+<!--                insertUsers(user);-->
+<!--            }-->
+<!--        });-->
+<!--    }-->
 
-    function insertUsers(user) {
-        let usersDiv = document.getElementById('usersList');
+<!--    function searchUsers() {-->
+<!--        let usersDiv = document.getElementById('usersList');-->
+<!--        usersDiv.innerHTML = '';-->
 
-        for (let i = 0; i < user.length; i++) {
-            let user = user[i];
+<!--        let firstNameSearch = document.getElementById('firstNameSearch').value;-->
+<!--        let emailSearch = document.getElementById('emailSearch').value;-->
+<!--        let filterSearch = document.getElementById('filterSearch').value;-->
 
-            let userTr = document.createElement('tr');
+<!--        let request = {-->
+<!--            'firstName': firstNameSearch,-->
+<!--            'email': emailSearch,-->
+<!--            'name' : filterSearch-->
+<!--        }-->
 
-            let idTd = document.createElement('td');
-            let ageTd = document.createElement('td');
-            let emailTd = document.createElement('td');
-            let firstNameTd = document.createElement('td');
-            let lastNameTd = document.createElement('td');
+<!--        $.ajax({-->
+<!--            type: "GET",-->
+<!--            contentType: "application/json",-->
+<!--            url: "/user/search",-->
+<!--            dataType: 'json',-->
+<!--            data: JSON.stringify(request),-->
+<!--            cache: false,-->
+<!--            timeout: 600000,-->
+<!--            success: function (user) {-->
+<!--                insertUsers(user);-->
+<!--            }-->
+<!--        });-->
+<!--    }-->
 
-            let infoLink = document.createElement('a');
-            let deleteLink = document.createElement('a');
+<!--    function insertUsers(user) {-->
+<!--        let usersDiv = document.getElementById('usersList');-->
 
-            idTd.innerText = user.id;
-            ageTd.innerText = user.age;
-            emailTd.innerText = user.email;
-            firstNameTd.innerText = user.firstName;
-            lastNameTd.innerText = user.lastName;
+<!--        for (let i = 0; i < user.length; i++) {-->
+<!--            let user = user[i];-->
 
-            infoLink.href = '/user?id=' + user.id;
-            infoLink.innerText = 'info';
+<!--            let userTr = document.createElement('tr');-->
 
-            userTr.append(idTd);
-            userTr.append(ageTd);
-            userTr.append(emailTd);
-            userTr.append(firstNameTd);
-            userTr.append(lastNameTd);
+<!--            let idTd = document.createElement('td');-->
+<!--            let ageTd = document.createElement('td');-->
+<!--            let emailTd = document.createElement('td');-->
+<!--            let firstNameTd = document.createElement('td');-->
+<!--            let lastNameTd = document.createElement('td');-->
 
-            userTr.append(infoLink)
-            userTr.append(deleteLink)
+<!--            let infoLink = document.createElement('a');-->
+<!--            let deleteLink = document.createElement('a');-->
 
-            usersDiv.append(userTr);
-        }
-    }
+<!--            idTd.innerText = user.id;-->
+<!--            ageTd.innerText = user.age;-->
+<!--            emailTd.innerText = user.email;-->
+<!--            firstNameTd.innerText = user.firstName;-->
+<!--            lastNameTd.innerText = user.lastName;-->
 
-</script>
-</body>
-</html>
+<!--            infoLink.href = '/user?id=' + user.id;-->
+<!--            infoLink.innerText = 'info';-->
+
+<!--            userTr.append(idTd);-->
+<!--            userTr.append(ageTd);-->
+<!--            userTr.append(emailTd);-->
+<!--            userTr.append(firstNameTd);-->
+<!--            userTr.append(lastNameTd);-->
+
+<!--            userTr.append(infoLink)-->
+<!--            userTr.append(deleteLink)-->
+
+<!--            usersDiv.append(userTr);-->
+<!--        }-->
+<!--    }-->
+
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
