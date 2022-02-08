@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<style>
+
+    body{
+    background-color: #cfd2d6;
+    }
+
+    div.audio-player{
+        filter: sepia(20%) saturate(70%) grayscale(1) contrast(99%) invert(12%);
+
+        font-family: "Yu Gothic UI Semibold";
+        font-weight: bold;
+
+        border-radius: 90px;
+        height: 45px;
+
+        margin: auto;
+        width: 300px;
+        padding: 10px;
+    }
+
+</style>
+</head>
+<body>
+
+<div class="audio-player" id="song"></div>
+
+<script type="text/javascript"
+        src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+
+    window.onload = pageLoaded();
+
+    function pageLoaded() {
+        getSong();
+    }
+
+    function forAudioPlay(songs) {
+
+        let audio = document.getElementById('song');
+        for (let i = 0; i < songs.length; i++) {
+            let song = songs[i];
+            if (song.path != null) {
+                let divSound = document.createElement('divSound');
+
+                let sound = document.createElement('audio');
+                sound.id = 'audio-player';
+                sound.controls = 'controls';
+                sound.src = song.path;
+                sound.type = 'audio/mpeg';
+
+                let p = document.createElement('p');
+                p.innerText = song.name;
+                divSound.append(p);
+                divSound.append(sound);
+                audio.appendChild(divSound);
+
+
+            }
+        }
+    }
+    function getSong() {
+        $.ajax({
+            url: "/currentUserSongs",
+            type: "GET",
+            contentType: "application/json",
+            dataType: 'json',
+            processData: false,
+            cache: false,
+            timeout: 600000,
+            success: function (res) {
+                forAudioPlay(res);
+                console.log(res);
+            },
+            error: function (res) {
+                console.log('ERR:' + res);
+            },
+        });
+    }
+
+
+</script>
+
+</body>
+</html>

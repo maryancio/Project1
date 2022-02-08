@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home page</title>
+    <style>
+        :root {
+            --border-size: 0.125rem;
+            --duration: 250ms;
+            --ease: cubic-bezier(0.215, 0.61, 0.355, 1);
+            --font-family: monospace;
+            --color-primary: white;
+            --color-secondary: black;
+            --color-tertiary: dodgerblue;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --space: 1rem;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #cfd2d6;
+            height: 100vh;
+            margin: 0 auto;
+            display: grid;
+            place-items: center;
+            padding: calc(var(--space) * 2);
+            max-width: 700px;
+        }
+
+        .multi-a {
+            display: flex;
+            width: 100%;
+            box-shadow: var(--shadow) 4px 4px;
+        }
+
+        .multi-a a {
+            flex-grow: 1;
+            cursor: pointer;
+            position: relative;
+            padding: calc(var(--space) / 1.125) var(--space) var(--space);
+            border: var(--border-size) solid black;
+            color: var(--color-secondary);
+            background-color: var(--color-primary);
+            font-size: 1.75rem;
+            font-family: var(--font-family);
+            text-transform: uppercase;
+            text-shadow: var(--shadow) 2px 2px;
+            transition: flex-grow var(--duration) var(--ease);
+        }
+
+        .multi-a a + a {
+            border-left: var(--border-size) solid black;
+            margin-left: calc(var(--border-size) * -1);
+        }
+
+        .multi-a a:hover,
+        .multi-a a:focus {
+            flex-grow: 2;
+            color: white;
+            outline: none;
+            font-weight: bold;
+            text-shadow: none;
+            background-color: var(--color-secondary);
+        }
+
+        .multi-a a:focus {
+            outline: var(--border-size) dashed var(--color-primary);
+            outline-offset: calc(var(--border-size) * -3);
+        }
+
+        .multi-a:hover a:focus:not(:hover) {
+            flex-grow: 1;
+            color: var(--color-secondary);
+            background-color: var(--color-primary);
+            outline-color: var(--color-tertiary);
+        }
+
+        .multi-a a:active {
+            transform: translateY(var(--border-size));
+        }
+    </style>
+</head>
+<body>
+
+<div class="multi-a">
+    <a href="/userPage">User info</a>
+    <a href="/uploadForm">Upload your song</a>
+    <a href="/songs"> User Songs</a>
+    <a href="/logout"> Logout</a>
+</div>
+
+
+</body>
+</html>
