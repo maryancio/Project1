@@ -33,14 +33,6 @@ public class UserController {
         return "userInfo";
     }
 
-    @GetMapping("/users")
-    public String usersPage(Model model) {
-        List<UserDto> users = userService.getAll();
-        model.addAttribute("users", users);
-        return "users";
-    }
-
-
     @GetMapping("/user/{id}")
     public String usersPage(@PathVariable Long id, Model model) {
         UserDto user = userService.getById(id);
@@ -55,12 +47,6 @@ public class UserController {
         UserDto user = userService.getById(id);
         model.addAttribute("user", user);
         return "userInfo";
-    }
-
-    @GetMapping("/user/delete/{id}")
-    public String deleteUser(@PathVariable Long id, Model model) {
-        userService.deleteUserById(id);
-        return "redirect:/users";
     }
 }
 
